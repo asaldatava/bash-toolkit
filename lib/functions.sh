@@ -2,29 +2,38 @@
 
 source config/file.env
 
+function backup() {
+    rotate_backups
+    calc_checksum
+}
+
 function rotate_backups() {
     CURRENT_DATE=$(date '+%Y%m%d%H%M%S')
     ARCHIVE_NAME=backup_${CURRENT_DATE}.tar.gz
-    LOG_NAME=logs/backup_${CURRENT_DATE}.log
+    LOG_NAME_INFO=logs/backup_${CURRENT_DATE}_INFO.log
+    LOG_NAME_ERROR=logs/backup_${CURRENT_DATE}_ERROR.log
 if [[ ! -d "$DESTINATION_DIR" ]]; then
   mkdir -p "$DESTINATION_DIR"
+  echo "INFO: creating a ${DESTINATION_DIR} directory"
 fi
-
+echo "Check if source exists"
 if [[ ! -d "$SOURCE_DIRECTORY" ]]; then
-  >>${LOG_NAME} 2>&1
+  echo "ERROR: $SOURCE_DIRECTORY does not exist"
+else
+  echo "INFO: creating ${ARCHIVE_NAME} in ${DESTINATION_DIR}"
+  exit 0
 fi
-
-    tar -cvzf $DESTINATION_DIR/${ARCHIVE_NAME} $SOURCE_DIRECTORY  >>${LOG_NAME} 2>&1
-    calc_checksum
-
-    # Clean up old backups
-    count=$(ls -tr "$DESTINATION_DIR" | wc -l)
-    if [[ $count -gt $MAX_BACKUPS ]]; then
-      # Delete oldest backups until reaching the desired number
-      for file in $(ls -t "$DESTINATION_DIR" | tail -n +$(($count - $MAX_BACKUPS))); do
-        rm -f "$DESTINATION_DIR/$file"
-      done
-    fi
+  tar -cvzf $DESTINATION_DIR/${ARCHIVE_NAME} $SOURCE_DIRECTORY > ${LOG_NAME_INFO} 2>${LOG_NAME_ERROR}
+# Clean up old backups
+BACKUPS=($(ls -dt $DESTINATION_DIR/backup_*))
+BACKUP_COUNT=${#BACKUPS[@]}
+if [ "$BACKUP_COUNT" -gt "$MAX_BACKUPS" ]; then
+  for (( i="$MAX_BACKUPS"; i<$BACKUP_COUNT; i++ ))
+  do
+    rm -rf "${BACKUPS[$i]}"
+    echo "Old backup deleted: ${BACKUPS[$i]}"
+  done
+fi
 }
 
 function calc_checksum() {
