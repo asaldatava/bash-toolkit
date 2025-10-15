@@ -7,6 +7,15 @@ function backup() {
     calc_checksum
 }
 
+function log() {
+  if [[ ! -f "$PATH_TO_FILE" ]]; then
+    echo "ERROR: $PATH_TO_FILE does no exist"
+    exit 1
+  fi
+  grep -m "$MAX_SEARCH" -F "$PATTERN" "$PATH_TO_FILE"
+  exit 0
+}
+
 function rotate_backups() {
     CURRENT_DATE=$(date '+%Y%m%d%H%M%S')
     ARCHIVE_NAME=backup_${CURRENT_DATE}.tar.gz

@@ -1,6 +1,9 @@
 # bash-toolkit
 This repo is a set of basic bash script using in the daily work of devops:
-backup, log analysis, system reports. 
+backup, log analysis, system reports.
+
+Code ```exit 0``` means that command has succeeded.
+Code ```exit 1``` means that command has failed.
 
 The command from cli looks like:
 
@@ -20,8 +23,19 @@ e.g.
 ```
 ./toolkit.sh backup ./sources/fileTobackup.txt ./backups 5
 ```
-Code ```exit 0``` means that command has succeeded.
-Code ```exit 1``` means that command has failed
+
 Logs are stored in /logs directory. 
 Info and errors logs are stored separately in backup_*INFO.log
 and backup_*_ERROR.log
+
+## log
+
+This command is used to search by pattern, showing the n matches. 
+
+```
+./toolkit.sh log [number-matches] [pattern] [path-to-log]
+```
+e.g.
+```
+./toolkit.sh log 4 "Freezing" /var/log/syslog
+```
