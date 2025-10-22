@@ -39,3 +39,11 @@ e.g.
 ```
 ./toolkit.sh log 4 "Freezing" /var/log/syslog
 ```
+
+## sysinfo
+
+This command is used to show basic system information represented in a table
+
+```
+./toolkit.sh sysinfo
+```
