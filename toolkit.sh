@@ -25,7 +25,7 @@ case "$1" in
     ;;
 esac
 
-backup
-log
+backup "$2" "$3" "$4"
+log "$2" "$3" "$4"
 sysinfo
 menu

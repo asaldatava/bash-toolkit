@@ -144,16 +144,12 @@ function menu() {
       sysinfo   # this is the name of the function to run
       ;;
 
-    menu)    # this is the name of the argument triggering the function - could be different, for instance f4
-      menu   # this is the name of the function to run
-      ;;
-
     \?) # Invalid option
        echo "Error: Invalid option"
        exit;;
 
     *)
-      echo "Usage: $0 {backup|log|sysinfo|menu}"
+      echo "Usage: $0 {backup|log|sysinfo}"
       ;;
   esac
 }
