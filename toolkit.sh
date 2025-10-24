@@ -3,22 +3,29 @@ set -x
 
 source lib/functions.sh
 
-backup
-#log
-
 case "$1" in
   backup)    # this is the name of the argument triggering the function - could be different, for instance f1
-    backup   # this is the name of the function to run
-    shift
+    backup  # this is the name of the function to run
     ;;
 
   log)    # this is the name of the argument triggering the function - could be different, for instance f2
     log   # this is the name of the function to run
-    shift
+    ;;
+
+  sysinfo)    # this is the name of the argument triggering the function - could be different, for instance f3
+    sysinfo   # this is the name of the function to run
+    ;;
+
+  menu)    # this is the name of the argument triggering the function - could be different, for instance f4
+    menu   # this is the name of the function to run
     ;;
 
   *)
-    echo "Usage: $0 {backup|log}"
+    echo "Usage: $0 {backup|log|sysinfo|menu}"
     ;;
 esac
 
+backup "$2" "$3" "$4"
+log "$2" "$3" "$4"
+sysinfo
+menu
