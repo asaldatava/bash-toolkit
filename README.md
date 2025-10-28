@@ -47,3 +47,22 @@ This command is used to show basic system information represented in a table
 ```
 ./toolkit.sh sysinfo
 ```
+
+## menu 
+
+This command is used to see which the option are available. 
+
+To run this command use:
+
+```
+./toolkit.sh menu
+
+```
+
+After running this command you can see in menu_*_INFO.log the following prompt:
+
+```
+Usage: ./toolkit.sh {backup|log|sysinfo}
+```
+
+
